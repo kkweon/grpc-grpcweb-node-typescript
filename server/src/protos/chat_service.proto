@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package protos.chat_service;
+
+import "server/src/protos/timestamp.proto";
+
+service ChatService {
+  rpc CreateStream(Empty) returns (stream CreateStreamResponse);
+  rpc SendMessage(SendMessageRequest) returns (Empty);
+}
+
+message Empty {}
+message CreateStreamResponse {
+  Message message = 1;
+}
+message SendMessageRequest {
+  Message message = 1;
+ }
+
+ message Message {
+   string username = 1;
+   string message = 2;
+   google.protobuf.Timestamp timestamp = 3;
+ }
