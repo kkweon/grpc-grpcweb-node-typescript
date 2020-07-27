@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_client/screens:main_screen.dart';
+import 'package:flutter_client/screens/login_screen.dart';
+import 'package:flutter_client/screens/main_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +16,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MainScreen(),
+      initialRoute: LoginScreen.id,
+      routes: {
+        MainScreen.id: (context) => MainScreen(),
+        LoginScreen.id: (context) => LoginScreen(),
+      },
     );
   }
 }
