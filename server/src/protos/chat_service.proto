@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package protos.chat_service;
 
-import "server/src/protos/timestamp.proto";
+import "timestamp.proto";
 
 service ChatService {
   rpc CreateStream(Empty) returns (stream CreateStreamResponse);
