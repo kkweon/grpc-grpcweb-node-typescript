@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { Injectable, ɵisDefaultChangeDetectionStrategy } from '@angular/core'
 import { ChatServiceClient } from '../generated/Chat_serviceServiceClientPb'
 import {
   Empty,
@@ -8,7 +8,12 @@ import {
 } from 'src/generated/chat_service_pb'
 import { environment } from '../environments/environment'
 import { Observable } from 'rxjs'
-import { Error, ClientReadableStream } from 'grpc-web'
+import {
+  Error,
+  ClientReadableStream,
+  GrpcWebClientBase,
+  Metadata,
+} from 'grpc-web'
 
 @Injectable({
   providedIn: 'root',
@@ -21,8 +26,14 @@ export class ChatService {
 
   connect(): Observable<CreateStreamResponse> {
     return new Observable((observer) => {
+      const deadline = new Date()
+      deadline.setFullYear(deadline.getFullYear() + 1)
       const stream: ClientReadableStream<CreateStreamResponse> = this.chatServiceClient.createStream(
         new Empty(),
+        {
+          // @ts-ignore
+          deadline: deadline.getTime(),
+        },
       )
       stream.on('data', (resp: CreateStreamResponse) => {
         observer.next(resp)
