@@ -1,0 +1,20 @@
+<div class="container">
+  <!-- chat area-->
+  <div class="chatarea">
+    <div *ngFor="let message of messages$ | async">
+      <p>{{ renderMessage(message) }}</p>
+    </div>
+  </div>
+
+  <form class="chatinput" #chatForm="ngForm" (ngSubmit)="onSubmit(chatForm)">
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username" required [(ngModel)]="username" #usernameInput ="ngModel">
+    <div [hidden]="usernameInput.valid || usernameInput.pristine">Username is required</div>
+
+    <label for="message">Message</label>
+    <input type="text" name="message" id="message" required [(ngModel)]="message" #messageInput="ngModel">
+    <div [hidden]="messageInput.valid || messageInput.pristine">You need to enter message</div>
+
+    <button type="submit" [disabled]="chatForm.invalid || chatForm.pristine">Send</button>
+  </form>
+</div>

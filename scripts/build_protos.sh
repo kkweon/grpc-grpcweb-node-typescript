@@ -35,3 +35,11 @@ CLIENT_DEST="${BASEDIR}/cli-client/src/generated"
 
 write_to_dest "${SERVER_DEST}" || exit 1
 write_to_dest "${CLIENT_DEST}" || exit 1
+
+### gRPC-web
+WEB_CLIENT_DEST="${BASEDIR}/client/src/generated"
+rm -rf ${WEB_CLIENT_DEST} && mkdir -p ${WEB_CLIENT_DEST}
+protoc -Isrc/protos \
+    --js_out=import_style=commonjs:${WEB_CLIENT_DEST} \
+    --grpc-web_out=import_style=typescript,mode=grpcwebtext:${WEB_CLIENT_DEST} \
+    src/protos/*.proto

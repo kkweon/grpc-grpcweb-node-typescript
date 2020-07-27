@@ -36,8 +36,8 @@ spec:
         name: server
         ports:
           - containerPort: 8888
-            name: gRPC-port
+            name: grpc-port
         resources:
             limits:
               cpu: 100m
-              memory: 50Mi
+              memory: 500Mi
