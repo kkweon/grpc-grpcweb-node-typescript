@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: server
+  name: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      volumes:
+        - name: envoy-config-vm
+          configMap:
+              name: envoy-config
+      containers:
+      - image: envoyproxy/envoy-alpine:v1.14-latest
+        name: envoy
+        ports:
+          - containerPort: 8080
+            name: envoy-port
+        volumeMounts:
+          - mountPath: /etc/envoy/envoy.yaml
+            subPath: envoy.yaml
+            name: envoy-config-vm
+        resources:
+            limits:
+              cpu: 100m
+              memory: 50Mi
+      - image: kkweon/chat-server-grpc-node
+        name: server
+        ports:
+          - containerPort: 8888
+            name: grpc-port
+        resources:
+            limits:
+              cpu: 100m
+              memory: 500Mi

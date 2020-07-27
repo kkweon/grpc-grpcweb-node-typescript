@@ -32,7 +32,7 @@ spec:
             limits:
               cpu: 100m
               memory: 50Mi
-      - image: server
+      - image: kkweon/chat-server-grpc-node
         name: server
         ports:
           - containerPort: 8888

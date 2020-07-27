@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  addressWithPort: "http://0.0.0.0:8888"
+  addressWithPort: "https://k8s.kkweon.dev/grpc"
 };

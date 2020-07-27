@@ -4,7 +4,18 @@ metadata:
   name: grpc-node
 build:
   artifacts:
-  - image: server
-    context: server
+    - image: kkweon/chat-server-grpc-node
+      context: server
 deploy:
-  kustomize: {}
+  kustomize:
+    paths:
+      - k8s/dev
+profiles:
+  - name: run
+    activation:
+      - kubeContext: do-sfo2-kkweon-cluster-sfo
+        command: run
+    patches:
+      - op: replace
+        path: /deploy/kustomize/paths/0
+        value: k8s/prod

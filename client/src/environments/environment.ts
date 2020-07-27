@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  addressWithPort: "http://192.168.64.27:30000"
+  addressWithPort: "http://192.168.64.27/grpc"
 };
 
 /*
