@@ -1,2 +1,3 @@
 node_modules
-server/src/generated
+server/src/generated/
+dist/

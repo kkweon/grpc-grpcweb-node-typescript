@@ -19,6 +19,7 @@ export class InMemoryConnectionService<RequestType>
 
   addConnection(connection: Connection<RequestType>): void {
     this.connections.push(connection)
+    console.info("created a new connection")
   }
   async broadcast(message: Message | undefined): Promise<void> {
     if (!message) {
@@ -29,12 +30,19 @@ export class InMemoryConnectionService<RequestType>
     message.setTimestamp(getTimestampNow());
 
     for (const connection of this.connections) {
+      if (connection.stream.cancelled || connection.stream.destroyed) {
+        console.info("skipping already cancelled or destroyed connection")
+        continue;
+      }
       activeConnectionPromises.push(
         new Promise((resolve, reject) => {
           connection.stream.write(wrapWithCreateStreamResponse(message), (error) => {
             if (!error) {
+              console.info("sent message message = ", message)
               resolve(connection)
             } else {
+              console.warn("connection is lost connection = ", connection)
+              connection.stream.end()
               reject(error)
             }
           })
