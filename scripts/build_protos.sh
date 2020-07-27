@@ -43,3 +43,11 @@ protoc -Isrc/protos \
     --js_out=import_style=commonjs:${WEB_CLIENT_DEST} \
     --grpc-web_out=import_style=typescript,mode=grpcwebtext:${WEB_CLIENT_DEST} \
     src/protos/*.proto
+
+## gRPC Web for Flutter Client
+FLUTTER_WEB_DEST="${BASEDIR}/flutter_client/lib/generated"
+rm -rf "${FLUTTER_WEB_DEST}" && mkdir -p "${FLUTTER_WEB_DEST}"
+# $ protoc --dart_out=grpc:lib/src/generated -Iprotos protos/echo.proto
+protoc -Isrc/protos \
+    --dart_out=grpc:${FLUTTER_WEB_DEST} \
+    src/protos/*.proto
