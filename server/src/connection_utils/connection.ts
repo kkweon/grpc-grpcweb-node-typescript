@@ -1,5 +1,5 @@
-import { ServerWriteableStream } from 'grpc';
+import { ServerWriteableStream } from 'grpc'
 
 export interface Connection<RequestType> {
-  stream: ServerWriteableStream<RequestType>;
+  stream: ServerWriteableStream<RequestType>
 }
