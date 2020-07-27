@@ -9,3 +9,4 @@ spec:
   ports:
     - port: 8080
       targetPort: envoy-port
+      nodePort: 30000
