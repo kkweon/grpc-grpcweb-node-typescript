@@ -4,4 +4,4 @@ help:
 
 .PHONY: prettier
 prettier: ## Run Prettier
-	prettier --write **/*.{ts, html, js, json, yaml, scss}
+	prettier --write '**/*.{ts, html, js, json, yaml, scss}'

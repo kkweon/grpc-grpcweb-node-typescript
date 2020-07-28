@@ -11,3 +11,6 @@ spec:
       targetPort: envoy-port
       nodePort: 30000
       name: envoy-port
+    - port: 9901
+      targetPort: envoy-admin
+      name: envoy-admin

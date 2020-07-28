@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'
 import { ChatService } from '../chat-service.service'
-import { map, scan } from 'rxjs/operators'
+import { map, scan, tap } from 'rxjs/operators'
 import { Message } from 'src/generated/chat_service_pb'
 import { Observable } from 'rxjs'
 import { Timestamp } from 'src/generated/timestamp_pb'
@@ -17,10 +17,17 @@ export class MainComponent implements OnInit {
   messages$: Observable<Message[]>
   message: string
 
+  @ViewChild('chatAreaRef')
+  chatFormElement: ElementRef
+
   constructor(
     private chatSerivce: ChatService,
     private userService: UserService,
   ) {}
+
+  scrollChatAreaToBottom(): void {
+    this.chatFormElement.nativeElement.scrollTop = this.chatFormElement.nativeElement.scrollHeight
+  }
 
   ngOnInit(): void {
     this.messages$ = this.chatSerivce.connect(this.userService.username).pipe(

@@ -1,8 +1,9 @@
 <div class="container">
   <!-- chat area-->
-  <div class="chatarea">
-    <div *ngFor="let message of messages$ | async">
+  <div class="chatarea" #chatAreaRef>
+    <div *ngFor="let message of messages$ | async; let last=last">
       <p>{{ renderMessage(message) }}</p>
+      {{ last ? scrollChatAreaToBottom() : '' }}
     </div>
   </div>
 

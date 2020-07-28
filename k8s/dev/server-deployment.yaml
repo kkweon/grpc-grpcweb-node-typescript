@@ -25,7 +25,7 @@ spec:
           - containerPort: 8080
             name: envoy-port
           - containerPort: 9901
-            name: envoy-admin-port
+            name: envoy-admin
         volumeMounts:
           - mountPath: /etc/envoy/envoy.yaml
             subPath: envoy.yaml
