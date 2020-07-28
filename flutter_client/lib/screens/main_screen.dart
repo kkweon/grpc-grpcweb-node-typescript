@@ -87,16 +87,19 @@ class _MainScreenState extends State<MainScreen> {
                   Expanded(
                     child: TextField(
                       controller: _messageController,
-                      onChanged: (value) => _message = value,
+                      onChanged: (msg) => _message = msg,
                       decoration: InputDecoration(hintText: "enter a message"),
                       textInputAction: TextInputAction.go,
                       onSubmitted: (msg) => _sendMessage(widget.username, msg),
                     ),
                   ),
                   RaisedButton(
-                    child: Icon(
-                      Icons.send,
-                      color: Theme.of(context).colorScheme.onPrimary,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.send,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
                     ),
                     color: Theme.of(context).primaryColor,
                     onPressed: () => _sendMessage(widget.username, _message),
