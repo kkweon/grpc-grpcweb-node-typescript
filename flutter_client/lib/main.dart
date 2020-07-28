@@ -17,9 +17,14 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       initialRoute: LoginScreen.id,
-      routes: {
-        MainScreen.id: (context) => MainScreen(),
-        LoginScreen.id: (context) => LoginScreen(),
+      onGenerateRoute: (RouteSettings settings) {
+        print('build route for ${settings.name}');
+        final Map<String, WidgetBuilder> routes = {
+          MainScreen.id: (ctx) => MainScreen(settings.arguments),
+          LoginScreen.id: (ctx) => LoginScreen(),
+        };
+        WidgetBuilder builder = routes[settings.name];
+        return MaterialPageRoute(builder: (ctx) => builder(ctx));
       },
     );
   }

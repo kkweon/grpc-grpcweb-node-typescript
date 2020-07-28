@@ -9,6 +9,9 @@ final kDateTimeFormat = DateFormat().add_jms();
 
 class MainScreen extends StatefulWidget {
   static const String id = "main_screen";
+  final String username;
+
+  MainScreen(this.username);
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -30,10 +33,9 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
 
     this.chatService = ChatService();
-    this.chatService.connectStream().listen((value) {}).cancel();
 
     print("connection created");
-    this.subscription = this.chatService.connectStream().listen(
+    this.subscription = this.chatService.connectStream(widget.username).listen(
       (Message msg) {
         setState(() {
           _messages.add(msg);
@@ -59,7 +61,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final String _username = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         title: Text("Flutter Web Demo"),
@@ -81,6 +82,7 @@ class _MainScreenState extends State<MainScreen> {
             Expanded(
               flex: 1,
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Expanded(
                     child: TextField(
@@ -88,12 +90,16 @@ class _MainScreenState extends State<MainScreen> {
                       onChanged: (value) => _message = value,
                       decoration: InputDecoration(hintText: "enter a message"),
                       textInputAction: TextInputAction.go,
-                      onSubmitted: (value) => _sendMessage(_username, value),
+                      onSubmitted: (msg) => _sendMessage(widget.username, msg),
                     ),
                   ),
                   RaisedButton(
-                    child: Icon(Icons.send),
-                    onPressed: () => _sendMessage(_username, _message),
+                    child: Icon(
+                      Icons.send,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                    color: Theme.of(context).primaryColor,
+                    onPressed: () => _sendMessage(widget.username, _message),
                   ),
                 ],
               ),
