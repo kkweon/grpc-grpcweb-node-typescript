@@ -5,8 +5,12 @@ package protos.chat_service;
 import "timestamp.proto";
 
 service ChatService {
-  rpc CreateStream(Empty) returns (stream CreateStreamResponse);
+  rpc CreateStream(CreateStreamRequest) returns (stream CreateStreamResponse);
   rpc SendMessage(SendMessageRequest) returns (Empty);
+}
+
+message CreateStreamRequest {
+  string username = 1;
 }
 
 message Empty {}

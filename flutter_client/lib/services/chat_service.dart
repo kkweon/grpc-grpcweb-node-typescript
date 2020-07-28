@@ -10,10 +10,10 @@ class ChatService {
     this._service = ChatServiceClient(channel);
   }
 
-  Stream<Message> connectStream() {
+  Stream<Message> connectStream(String username) {
     return this
         ._service
-        .createStream(Empty())
+        .createStream(new CreateStreamRequest()..username = username)
         .map((event) => event.ensureMessage());
   }
 

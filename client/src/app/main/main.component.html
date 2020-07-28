@@ -6,15 +6,32 @@
     </div>
   </div>
 
-  <form class="chatinput" #chatForm="ngForm" (ngSubmit)="onSubmit(chatForm)">
-    <label for="username">Username</label>
-    <input type="text" name="username" id="username" required [(ngModel)]="username" #usernameInput ="ngModel">
-    <div [hidden]="usernameInput.valid || usernameInput.pristine">Username is required</div>
+  <mat-divider></mat-divider>
 
-    <label for="message">Message</label>
-    <input type="text" name="message" id="message" required [(ngModel)]="message" #messageInput="ngModel">
-    <div [hidden]="messageInput.valid || messageInput.pristine">You need to enter message</div>
+  <form class="chatinput" #chatForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="chatinput__row">
+      <mat-form-field>
+        <mat-label for="message">Message</mat-label>
+        <input
+          type="text"
+          name="message"
+          id="message"
+          required
+          [(ngModel)]="message"
+          #messageInput="ngModel"
+          matInput
+        />
+        <mat-error [hidden]="messageInput.valid || messageInput.pristine">
+          You need to enter message
+        </mat-error>
+      </mat-form-field>
 
-    <button type="submit" [disabled]="chatForm.invalid || chatForm.pristine">Send</button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit" [disabled]="chatForm.invalid || chatForm.pristine">
+        Send <mat-icon>send</mat-icon>
+      </button>
+    </div>
   </form>
 </div>

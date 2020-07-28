@@ -13,3 +13,7 @@ spec:
         backend:
           serviceName: server
           servicePort: envoy-port
+      - path: /envoy/?(.*)
+        backend:
+            serviceName: server
+            servicePort: envoy-admin-port

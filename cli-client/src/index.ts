@@ -1,8 +1,13 @@
 import { ChatServiceClient } from './generated/chat_service_grpc_pb'
 import { credentials } from 'grpc'
-import { Empty, CreateStreamResponse } from './generated/chat_service_pb'
+import {
+  Empty,
+  CreateStreamResponse,
+  CreateStreamRequest,
+} from './generated/chat_service_pb'
 import { printMessage } from './printMessage'
-import { mainPrompUsernameAndMessage } from './mainPrompUsernameAndMessage'
+import { mainReadMessageAndSend } from './mainPrompUsernameAndMessage'
+import readline from 'readline'
 
 process.on('SIGINT', function () {
   console.log('terminating')
@@ -14,9 +19,19 @@ const client = new ChatServiceClient(
   credentials.createInsecure(),
 )
 
-const stream = client.createStream(new Empty())
-stream.on('data', (resp: CreateStreamResponse) => {
-  printMessage(resp.getMessage())
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
 })
 
-mainPrompUsernameAndMessage(client)
+rl.question('enter a username: ', (username) => {
+  const request = new CreateStreamRequest()
+  request.setUsername(username)
+  const stream = client.createStream(request)
+
+  stream.on('data', (resp: CreateStreamResponse) => {
+    printMessage(resp.getMessage())
+  })
+
+  mainReadMessageAndSend(client, username, rl)
+})

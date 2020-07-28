@@ -1,0 +1,29 @@
+.container {
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+
+  padding: 1rem;
+}
+
+
+.chatarea{
+  flex: 1
+}
+
+.chatinput{
+  flex: 0 0 auto;
+}
+
+.chatinput__row {
+  display: flex;
+  align-items: baseline;
+
+  mat-form-field {
+    flex: 1;
+  }
+
+}

@@ -5,6 +5,7 @@ import {
   CreateStreamResponse,
   SendMessageRequest,
   Message,
+  CreateStreamRequest,
 } from 'src/generated/chat_service_pb'
 import { environment } from '../environments/environment'
 import { Observable } from 'rxjs'
@@ -24,11 +25,18 @@ export class ChatService {
     this.chatServiceClient = new ChatServiceClient(environment.addressWithPort)
   }
 
-  connect(): Observable<CreateStreamResponse> {
+  connect(username: string): Observable<CreateStreamResponse> {
+    if (!username) {
+      throw new Error("username cannot be empty")
+    }
     return new Observable((observer) => {
+      const request = new CreateStreamRequest()
+      request.setUsername(username)
+
       const stream: ClientReadableStream<CreateStreamResponse> = this.chatServiceClient.createStream(
-        new Empty(),
+        request,
       )
+
       stream.on('data', (resp: CreateStreamResponse) => {
         observer.next(resp)
       })

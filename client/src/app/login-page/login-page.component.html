@@ -1,0 +1,25 @@
+<div class="container">
+  <form #usernameForm="ngForm" (ngSubmit)="onSubmit(usernameForm)">
+    <mat-form-field>
+      <mat-label for="username">Username</mat-label>
+      <input
+        type="text"
+        name="username"
+        id="username"
+        [(ngModel)]="username"
+        #usernameInput="ngModel"
+        matInput
+        required
+      />
+      <mat-error [hidden]="usernameInput.valid || usernameInput.pristine">username is required to join</mat-error>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="usernameInput.invalid || usernameInput.pristine"
+    >
+      Connect
+    </button>
+  </form>
+</div>
