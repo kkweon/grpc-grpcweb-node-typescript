@@ -5,6 +5,7 @@ import {
   CreateStreamRequest,
 } from '../generated/chat_service_pb'
 import { getTimestampNow } from '../timestamp_util'
+import { logger } from '../app_logger'
 
 const kSystem = 'system'
 
@@ -28,7 +29,7 @@ export class InMemoryConnectionService
     const username = connection.stream.request.getUsername()
 
     if (!username) {
-      console.warn(
+      logger.warn(
         'connection was created but the username was not found in the request',
       )
       connection.stream.end()
@@ -36,19 +37,9 @@ export class InMemoryConnectionService
     }
 
     this.connections.push(connection)
-    console.info('created a new connection')
+    logger.info('created a new connection')
 
     this.broadcast(this.generateSystemMessage(`${username} has joined the room`))
-
-    connection.stream.on('close', () => {
-      return this.broadcast(this.generateSystemMessage(`${username} has left the room`))
-    })
-    connection.stream.on('error', () => {
-      return this.broadcast(this.generateSystemMessage(`${username} has left the room`))
-    })
-    connection.stream.on('finish', () => {
-      return this.broadcast(this.generateSystemMessage(`${username} has left the room`))
-    })
   }
 
   private generateSystemMessage(message: string): Message {
@@ -70,7 +61,7 @@ export class InMemoryConnectionService
 
     for (const connection of this.connections) {
       if (connection.stream.cancelled || connection.stream.destroyed) {
-        console.info('skipping already cancelled or destroyed connection')
+        logger.info('skipping already cancelled or destroyed connection')
         inactiveConnections.push(connection)
         continue
       }
@@ -80,11 +71,11 @@ export class InMemoryConnectionService
             wrapWithCreateStreamResponse(message),
             (error) => {
               if (!error) {
-                console.info('sent message message = ', message)
+                logger.info('sent message message = ', message)
                 resolve(connection)
               } else {
-                console.warn(`connection is lost connection = ${connection}`)
-                console.warn(`error message = ${error}`)
+                logger.warn(`connection is lost connection = ${connection}`)
+                logger.warn(`error message = ${error}`)
                 reject({error, connection})
               }
             },
@@ -99,7 +90,7 @@ export class InMemoryConnectionService
         activeConnections.push(await promise)
       } catch ({ error, connection }) {
         inactiveConnections.push(connection)
-        console.warn('connection disconnected ' + error)
+        logger.warn('connection disconnected ' + error)
       }
     }
 
