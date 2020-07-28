@@ -39,7 +39,9 @@ export class InMemoryConnectionService
     this.connections.push(connection)
     logger.info('created a new connection')
 
-    this.broadcast(this.generateSystemMessage(`${username} has joined the room`))
+    this.broadcast(
+      this.generateSystemMessage(`${username} has joined the room`),
+    )
   }
 
   private generateSystemMessage(message: string): Message {
@@ -54,7 +56,9 @@ export class InMemoryConnectionService
     if (!message) {
       return
     }
-    const activeConnectionPromises: Promise<Connection<CreateStreamRequest>>[] = []
+    const activeConnectionPromises: Promise<
+      Connection<CreateStreamRequest>
+    >[] = []
     const inactiveConnections: Connection<CreateStreamRequest>[] = []
 
     message.setTimestamp(getTimestampNow())
@@ -76,7 +80,7 @@ export class InMemoryConnectionService
               } else {
                 logger.warn(`connection is lost connection = ${connection}`)
                 logger.warn(`error message = ${error}`)
-                reject({error, connection})
+                reject({ error, connection })
               }
             },
           )
@@ -96,8 +100,12 @@ export class InMemoryConnectionService
 
     this.connections = activeConnections
 
-    inactiveConnections.forEach(disconnectedConnection => {
-      this.broadcast(this.generateSystemMessage(`${disconnectedConnection.username} was disconnected`))
+    inactiveConnections.forEach((disconnectedConnection) => {
+      this.broadcast(
+        this.generateSystemMessage(
+          `${disconnectedConnection.username} was disconnected`,
+        ),
+      )
     })
   }
 }

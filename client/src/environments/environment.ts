@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  addressWithPort: "http://192.168.64.27/grpc"
-};
+  addressWithPort: 'http://192.168.64.27/grpc',
+}
 
 /*
  * For easier debugging in development mode, you can import the following file

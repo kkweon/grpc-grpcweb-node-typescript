@@ -27,7 +27,7 @@ export class ChatService {
 
   connect(username: string): Observable<CreateStreamResponse> {
     if (!username) {
-      throw new Error("username cannot be empty")
+      throw new Error('username cannot be empty')
     }
     return new Observable((observer) => {
       const request = new CreateStreamRequest()
